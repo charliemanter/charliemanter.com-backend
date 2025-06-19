@@ -65,3 +65,7 @@ def analyze(username: str = Query(...), time_class: str = Query(...)):
         }
     except Exception as e:
         return {"error": str(e)}
+# Songmatch
+from routes.songmatch import router as songmatch_router
+
+app.include_router(songmatch_router)
