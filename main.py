@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+from routes.songmatch import router as songmatch_router
 import requests
 import matplotlib.pyplot as plt
 import io
@@ -14,6 +15,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include songmatch router before any route definitions
+app.include_router(songmatch_router)
 
 @app.get("/analyze")
 def analyze(username: str = Query(...), time_class: str = Query(...)):
@@ -66,7 +70,3 @@ def analyze(username: str = Query(...), time_class: str = Query(...)):
         }
     except Exception as e:
         return {"error": str(e)}
-# Songmatch
-from routes.songmatch import router as songmatch_router
-
-app.include_router(songmatch_router)
